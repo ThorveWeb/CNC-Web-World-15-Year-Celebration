@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style> @import url('https://fonts.googleapis.com/css2?family=Passions+Conflict&display=swap'); </style>
+
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      font-family: 'Passions Conflic';
+      font-weight: bold;
+      
+ 
+    
+    }
+
+    .book {
+      transition: opacity 0.4s 0.2s;
+    }
+
+    .page {
+      width: 30vw;
+      height: 44vw;
+      background-color: #111111;
+      float: left;
+      margin-bottom: 0.5em;
+      background: left top no-repeat;
+      background-size: cover;
+    }
+
+    .page:nth-child(even) {
+      clear: both;
+    }
+
+    .book {
+      perspective: 250vw;
+    }
+
+    .book .pages {
+      width: 60vw;
+      height: 44vw;
+      position: relative;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      border-radius: 4px;
+      /*  box-shadow: 0 0 0 1px #e3dfd8;*/
+    }
+
+    .book .page {
+      float: none;
+      clear: none;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      width: 30vw;
+      height: 44vw;
+      transform-origin: 0 0;
+      transition: transform 1.4s;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      user-select: none;
+      background-color: #f0f0f0;
+    }
+
+    .book .page:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.7s;
+      z-index: 2;
+    }
+
+    .book .page:nth-child(odd) {
+      pointer-events: all;
+      transform: rotateY(0deg);
+      right: 0;
+      border-radius: 0 4px 4px 0;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 10%);
+    }
+
+    .book .page:nth-child(odd):hover {
+      transform: rotateY(-15deg);
+    }
+
+    .book .page:nth-child(odd):hover:before {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .book .page:nth-child(odd):before {
+      background: rgba(0, 0, 0, 0);
+    }
+
+    .book .page:nth-child(even) {
+      pointer-events: none;
+      transform: rotateY(180deg);
+      transform-origin: 100% 0;
+      left: 0;
+      border-radius: 4px 0 0 4px;
+      border-color: black;
+      background-image: linear-gradient(to left, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, 0) 10%);
+    }
+
+    .book .page:nth-child(even):before {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .book .page.grabbing {
+      transition: none;
+    }
+
+    .book .page.flipped:nth-child(odd) {
+      pointer-events: none;
+      transform: rotateY(-180deg);
+    }
+
+    .book .page.flipped:nth-child(odd):before {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .book .page.flipped:nth-child(even) {
+      pointer-events: all;
+      transform: rotateY(0deg);
+    }
+
+    .book .page.flipped:nth-child(even):hover {
+      transform: rotateY(15deg);
+    }
+
+    .book .page.flipped:nth-child(even):hover:before {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .book .page.flipped:nth-child(even):before {
+      background: rgba(0, 0, 0, 0);
+    }
+
+    *,
+    * :before,
+    *:after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      font-family: 'Lovers Quarrel', cursive;
+      background: #333;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2em 0;
+      line-height: 1.5em;
+    }
+
+    .page:nth-child(odd) {
+      background-position: right top;
+    }
+
+
+    #page1 {
+      background: url('i.jpeg');
+      background-size: 100% 100%;
+      color: wheat;
+      padding: 1% 4%;
+
+    }
+
+    #page1 h2 {
+      position: relative;
+      top: 10%;
+      left: 15%;
+     font-size: 2vw;
+      text-decoration: underline overline;
+      text-decoration-thickness: 15%;
+      text-decoration-color: rgb(69, 131, 162);
+      text-underline-offset: 40%;
+
+
+    }
+
+    #page1 img {
+      width: 80%;
+      margin: -10% 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+    }
+
+    #page1 video {
+      border-radius: 40%;
+      width: 75%;
+      height: 30%;
+      margin: 20% 13%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    #page20,
+    #page16,
+    #page2,
+    #page4,
+    #page26,
+    #page24,
+    #page30,
+    #page32,
+    #page6,
+    #page28,
+    #page22,
+    #page8,
+    #page18,
+    #page10,
+    #page12,
+    #page14,
+    #page34 {
+      background: url('p.png');
+      background-size: 100% 100%;
+      box-shadow: inset 0px 0px 70px 10px white, inset 0px 0px 70px 10px white;
+
+    }
+
+
+
+    #page3,
+    #page13,
+    #page5,
+    #page7,
+    #page9,
+    #page11 {
+      font-family: 'Courier New', Courier, monospace;
+      color: red;
+      padding: 10% 7%;
+      font-size: 2vw;
+     
+      text-align: center;
+      background:url('ip3.jpg') no-repeat;
+      background-size: 100% 100%;
+      box-shadow: inset 4px 5px 10px black, inset -4px -5px 10px black;
+
+    }
+
+    #page13 img,
+    #page3 img,
+    #page5 img,
+    #page7 img,
+    #page9 img,
+    #page11 img {
+      width: 100%;
+      height: 70%;
+      margin: 13% 0%;
+      text-align: center;
+      border-radius: 20%;
+      border: 15px groove rgb(8, 151, 120);
+
+    }
+
+    #page3 span,
+    #page5 span,
+    #page7 span,
+    #page9 span,
+    #page11 span,
+    #page13 span {
+      color: deeppink;
+     
+      text-decoration: underline overline;
+      position: relative;
+      top: 5%;
+
+    }
+
+
+    #page15{
+      box-shadow: inset 4px 5px 10px black, inset -4px -5px 10px black;
+     padding: 14% 4%;
+      line-height: 300%;
+      text-align: center;
+      border-radius: 10%;
+      overflow: hidden;
+      font-size: 2vw;
+      padding-top: 5%;
+     
+
+      background: url('ip7.jpg');
+      background-size: 100% 100%;
+      }
+
+    #page15 img {
+      box-shadow: 0px 0px 5px 5px deeppink;
+      width: 80%;
+      border-radius: 10%;
+      height: 35%;
+    }
+
+
+    #page17,
+    #page19,
+    #page25,
+    #page31,
+    #page19,
+    #page27,
+    #page33,
+    #page21,
+    #page23,
+    #page29,#page17  {
+      box-shadow: inset 4px 5px 10px black, inset -4px -5px 10px black;
+
+      padding-top: 10%;
+      line-height: 300%;
+      text-align: center;
+      border-radius: 5%;
+      overflow: hidden;
+      background: url('ip7.jpg');
+      background-size: 100% 100%;
+
+    }
+
+    #page17 img,
+    #page19 img,
+    #page21 img,
+    #page23 img,
+    #page25 img,
+    #page27 img,
+    #page29 img,
+    #page31 img,
+    #page33 img {
+      box-shadow: 0px 0px 5px 5px deeppink;
+      margin-top: 10%;
+      width: 80%;
+      height: 35%;
+      border-radius: 10%;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #page35 {
+      box-shadow: inset 4px 5px 10px black, inset -4px -5px 10px black;
+      color: black;
+      padding-top: 5%;
+      line-height: 300%;
+      text-align: center;
+      border-radius: 1%;
+      overflow: hidden;
+      background: url('ip6.jpg');
+      background-size: 100% 100%;
+      font-size: 2vw;
+     
+    }
+
+
+    #page35 img{
+      margin-top: 5%;
+      width: 70%;
+      box-shadow: 0px 0px 25px 20px deeppink;
+    
+      height: 60%;
+      border-radius: 10%;
+    }
+
+    #page36 {
+      background: url('th.gif');
+      background-size: 100% 100%;
+      box-shadow: inset 4px 5px 10px 50px rgb(95, 10, 10), inset -4px -5px 10px rgb(89, 5, 5);
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+  <link href="https://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple" rel="stylesheet">
+  <div class="book">
+    <div id="pages" class="pages">
+
+      <div class="page" id="page1">
+        <video src="bappa.mp4" autoplay muted></video>
+        <img src="home_logo.png" alt="logo">
+
+        <h2>⭐🌟 w͙e͙l͙c͙o͙m͙e͙ 🌟⭐</h2>
+
+      </div>
+
+      <div class="page" id="page2"> </div>
+
+
+      <div class="page" id="page3">
+        <h1 style="text-decoration: underline overline;">CNC family</h1>
+        <img src="Kumar Nishant.jpeg" alt="">
+        <span> &#128525 Nishant Sir &#128525</span>
+      </div>
+      <div class="page" id="page4"></div>
+
+      <div class="page" id="page5">
+        <h1 style="text-decoration: underline overline;">CNC family</h1>
+        <img src="Prashant Kumar.jpeg" alt="">
+        <span> &#128525 Prashant Sir &#128525</span>
+      </div>
+      <div class="page" id="page6"></div>
+
+      <div class="page" id="page7">
+        <h1 style="text-decoration: underline overline;">CNC family</h1>
+        <img src="Kalpesh Adhiya.jpeg" alt="">
+        <span> &#128525 Kalpesh Sir&#128525</span>
+
+      </div>
+      <div class="page" id="page8">
+
+      </div>
+      <div class="page" id="page9">
+        <h1 style="text-decoration: underline overline;">CNC family</h1>
+        <img src="Shilpa Nikhare.jpg" alt="">
+        <span> &#128525 Shilpa Mam&#128525</span>
+
+      </div>
+      <div class="page" id="page10"></div>
+
+      <div class="page" id="page11">
+        <h1 style="text-decoration: underline overline;">CNC family</h1>
+        <img src="Ashwini Pawar.jpg" alt="">
+        <span> &#128525 Ashwini Mam&#128525</span>
+
+      </div>
+
+      <div class="page" id="page12"></div>
+      <div class="page" id="page13">
+        <h1 style="text-decoration: underline overline;">CNC family</h1>
+        <img src="akash.jpeg" alt="">
+        <span> &#128525 Akash Sir &#128525</span>
+
+      </div>
+      <div class="page " id="page14"></div>
+      <div class="page" id="page15">
+        <h1>CNC</h1>
+        <h2>🅼🅴🅼🅾🆁🅸🅴🆂</h2>
+        <img src="s2.jpeg" alt="s">
+        
+        <img src="s6.jpeg" alt="">
+
+      </div>
+      <div class="page" id="page16"></div>
+
+      <div class="page" id="page17">
+        
+        <img src="s7.jpeg" alt="">
+        <img src="s4.jpeg" alt="">
+        
+      </div>
+      <div class="page" id="page18"></div>
+      <div class="page" id="page19">
+        <img src="s8.jpeg" alt="">
+        <img src="a9.jpeg" alt="">
+      </div>
+
+
+      <div class="page" id="page20"></div>
+      <div class="page" id="page21">
+        <img src="a7.jpeg" alt="">
+        <img src="a6.jpeg" alt="">
+
+      </div>
+      <div class="page" id="page22"></div>
+      <div class="page " id="page23">
+        <img src="a2.jpeg" alt="">
+        <img src="a8.jpeg" alt="">
+
+
+      </div>
+      <div class="page" id="page24"></div>
+      <div class="page" id="page25">
+        <img src="q2.jpeg" alt="">
+        <img src="q1.jpeg" alt="">
+
+
+      </div>
+      <div class="page" id="page26"></div>
+      <div class="page" id="page27">
+        <img src="o3.jpeg" alt="">
+        <img src="o2.jpeg" alt="">
+
+      </div>
+      <div class="page" id="page28"></div>
+      <div class="page" id="page29">
+        <img src="o4.jpeg" alt="">
+        <img src="o5.jpeg" alt="">
+      </div>
+
+      <div class="page" id="page30"></div>
+      <div class="page" id="page31">
+        <img src="o1.jpeg" alt="">
+        <img src="o6.jpeg" alt="">
+      </div>
+
+      <div class="page" id="page32"></div>
+      <div class="page" id="page33">
+        <img src="o7.jpeg" alt="">
+        <img src="o8.jpeg" alt="">
+      </div>
+
+
+      <div class="page" id="page34"></div>
+      <div class="page" id="page35">
+        <h1>OLD</h1>
+        <h2>✰ 𝕞𝕖𝕞𝕠𝕣𝕚𝕖𝕤 ✰</h2>
+        <img src="a5.jpeg" alt="">
+      </div>
+
+
+      <div class="page" id="page36"></div>
+
+
+
+    </div>
+  </div>
+
+
+  <script>
+    var pages = document.getElementsByClassName('page');
+    for (var i = 0; i < pages.length; i++) {
+      var page = pages[i];
+      if (i % 2 === 0) {
+        page.style.zIndex = (pages.length - i);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      for (var i = 0; i < pages.length; i++) {
+        //Or var page = pages[i];
+        pages[i].pageNum = i + 1;
+        pages[i].onclick = function () {
+          if (this.pageNum % 2 === 0) {
+            this.classList.remove('flipped');
+            this.previousElementSibling.classList.remove('flipped');
+          }
+          else {
+            this.classList.add('flipped');
+            this.nextElementSibling.classList.add('flipped');
+          }
+        }
+      }
+    })
+  </script>
+  <audio src="v.mp3" autoplay controls style="display: none;"></audio>
+</body>
+
+</html>
+  
